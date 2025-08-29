@@ -1,13 +1,13 @@
 package com.hepdd.gtmthings;
 
+import com.hepdd.gtmthings.common.registry.GTMTRegistration;
+import com.hepdd.gtmthings.data.GTMTRecipe;
+
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-
-import com.hepdd.gtmthings.common.registry.GTMTRegistration;
-import com.hepdd.gtmthings.data.GTMTRecipe;
 
 import java.util.function.Consumer;
 

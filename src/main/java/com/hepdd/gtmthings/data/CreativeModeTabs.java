@@ -1,11 +1,12 @@
 package com.hepdd.gtmthings.data;
 
+import com.hepdd.gtmthings.GTMThings;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
 import net.minecraft.world.item.CreativeModeTab;
 
-import com.hepdd.gtmthings.GTMThings;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 
 import static com.gregtechceu.gtceu.api.GTValues.MAX;

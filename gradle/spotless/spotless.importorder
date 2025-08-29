@@ -1,7 +1,8 @@
 #Organize Import Order
 #Sat May 27 02:13:47 CDT 2023
-0=com.gtocore
+0=com.hepdd.gtmthings
 1=com.gregtechceu
+1=com.lowdragmc
 1=net
 2=
 3=java

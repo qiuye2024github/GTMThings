@@ -1,5 +1,7 @@
 package com.hepdd.gtmthings.data;
 
+import com.hepdd.gtmthings.GTMThings;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -20,7 +22,6 @@ import net.minecraftforge.common.Tags;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
-import com.hepdd.gtmthings.GTMThings;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import java.util.List;

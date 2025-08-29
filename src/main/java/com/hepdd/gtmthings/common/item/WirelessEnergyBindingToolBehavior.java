@@ -1,5 +1,8 @@
 package com.hepdd.gtmthings.common.item;
 
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
+import com.hepdd.gtmthings.config.ConfigHolder;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.IElectricItem;
@@ -16,9 +19,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
-
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
-import com.hepdd.gtmthings.config.ConfigHolder;
 
 import java.math.BigInteger;
 

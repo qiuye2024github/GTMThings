@@ -1,22 +1,24 @@
 package com.hepdd.gtmthings.common.block.machine.electric;
 
+import com.hepdd.gtmthings.api.gui.widget.AlignComponentPanelWidget;
+import com.hepdd.gtmthings.api.gui.widget.AlignLabelWidget;
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
+import com.hepdd.gtmthings.common.item.IWirelessMonitor;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-
-import com.hepdd.gtmthings.api.gui.widget.AlignComponentPanelWidget;
-import com.hepdd.gtmthings.api.gui.widget.AlignLabelWidget;
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
-import com.hepdd.gtmthings.common.item.IWirelessMonitor;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;

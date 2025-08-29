@@ -1,10 +1,11 @@
 package com.hepdd.gtmthings.integration.jade;
 
+import com.hepdd.gtmthings.integration.jade.provider.WirelessEnergyHatchProvider;
+import com.hepdd.gtmthings.integration.jade.provider.WirelessOpticalComputationHatchProvider;
+
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
-import com.hepdd.gtmthings.integration.jade.provider.WirelessEnergyHatchProvider;
-import com.hepdd.gtmthings.integration.jade.provider.WirelessOpticalComputationHatchProvider;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;

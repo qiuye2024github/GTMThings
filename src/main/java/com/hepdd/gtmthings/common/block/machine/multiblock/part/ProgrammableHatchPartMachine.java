@@ -1,12 +1,13 @@
 package com.hepdd.gtmthings.common.block.machine.multiblock.part;
 
+import com.hepdd.gtmthings.api.machine.trait.ProgrammableCircuitHandler;
+import com.hepdd.gtmthings.data.CustomItems;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
-import com.hepdd.gtmthings.api.machine.trait.ProgrammableCircuitHandler;
-import com.hepdd.gtmthings.data.CustomItems;
 import org.jetbrains.annotations.NotNull;
 
 public class ProgrammableHatchPartMachine extends DualHatchPartMachine {

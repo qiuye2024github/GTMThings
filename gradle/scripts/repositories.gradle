@@ -1,9 +1,28 @@
 repositories {
-    mavenLocal()
     flatDir {
-        dir 'libs'
+        dir "gradle/libs"
     }
+    mavenLocal()
     mavenCentral()
+    maven {
+        url = "https://maven.quiltmc.org/repository/release/"
+    }
+    maven { // JEI
+        name = "Jared's Maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven { // JEI mirror, AE2
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+    maven { // LDLib, Shimmer
+        name = "FirstDarkDev Maven"
+        url = "https://maven.firstdarkdev.xyz/snapshots"
+    }
+    maven { // Configuration
+        name = 'Configuration'
+        url = 'https://api.repsy.io/mvn/toma/public/'
+    }
     maven {
         name = 'GTCEu Maven'
         url = 'https://maven.gtceu.com'
@@ -12,81 +31,44 @@ repositories {
         }
     }
     maven {
-        url = "https://modmaven.dev"
-    }
-    maven {
-        url = "https://maven.firstdarkdev.xyz/snapshots/"
-    }
-    maven {
-        url = "https://maven.quiltmc.org/repository/release/"
-    }
-    maven {
-        url = "https://maven.parchmentmc.org"
-    }
-    maven {
-        url = "https://cursemaven.com/"
+        name = 'GuideME Snapshots'
+        url = 'https://central.sonatype.com/repository/maven-snapshots/'
         content {
-            includeGroup "curse.maven"
+            includeModule('org.appliedenergistics', 'guideme')
         }
     }
     maven {
-        url = "https://maven.architectury.dev/"
-    }
-    maven {
-        url = "https://maven.saps.dev/releases/"
+        name = 'FTB Mods'
+        url = "https://maven.ftb.dev/releases"
         content {
-            includeGroup "dev.latvian.mods"
-            includeGroup "dev.ftb.mods"
+            includeGroup("dev.ftb.mods")
         }
     }
-    maven {
-        url = "https://maven.tterrag.com/"
-        content {
-            includeGroup("com.tterrag.registrate")
+    exclusiveContent { // shedaniel - REI, architectury, cloth-config
+        forRepository { maven { url = "https://maven.shedaniel.me/" } }
+        filter {
+            includeGroupAndSubgroups("me.shedaniel")
+            includeGroup("dev.architectury")
         }
-    }
-    maven {
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        url = "https://maven.teamresourceful.com/repository/maven-public/"
-    }
-    maven {
-        url = "https://maven.shadowsoffire.dev/releases"
-        content {
-            includeGroup "dev.shadowsoffire"
-        }
-    }
-    maven {
-        name = 'GeckoLib'
-        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
-        }
-    }
-    maven {
-        url = "https://maven.jt-dev.tech/releases/"
-    }
-    maven {
-        url = "https://mvnrepository.com/artifact/com.hollingsworth.ars_nouveau"
-    }
-    maven {
-        url = "https://maven.bawnorton.com/releases"
-    }
-    maven {
-        url = "https://maven.enjarai.dev/mirrors"
     }
     exclusiveContent { // FTB mods
         forRepository { maven { url = "https://maven.ftb.dev/releases" } }
         filter { includeGroup("dev.ftb.mods") }
     }
-    maven {
-        name = "TerraformersMC"
-        url = "https://maven.terraformersmc.com/"
+    exclusiveContent { // tterrag - registrate
+        forRepository { maven { url = "https://maven.tterrag.com/" } }
+        filter { includeGroup("com.tterrag.registrate") }
     }
-    exclusiveContent { // Configuration
-        forRepository { maven { url = "https://api.repsy.io/mvn/toma/public" } }
-        filter { includeGroup("dev.toma.configuration")}
+    exclusiveContent { // terraformers - EMI
+        forRepository { maven { url = "https://maven.terraformersmc.com/releases/" } }
+        filter { includeGroup("dev.emi") }
+    }
+    exclusiveContent { // Modrinth Maven
+        forRepository { maven { url = "https://api.modrinth.com/maven" } }
+        filter { includeGroup("maven.modrinth") }
+    }
+    exclusiveContent { // Curseforge Maven
+        forRepository { maven { url = "https://cursemaven.com" } }
+        filter { includeGroup("curse.maven") }
     }
 }

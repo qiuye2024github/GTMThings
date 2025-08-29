@@ -1,5 +1,11 @@
 package com.hepdd.gtmthings.data;
 
+import com.hepdd.gtmthings.GTMThings;
+import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyInterface;
+import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.WirelessEnergyHatchPartMachine;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.computation.WirelessOpticalComputationHatchMachine;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -13,11 +19,6 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 
-import com.hepdd.gtmthings.GTMThings;
-import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyInterface;
-import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.WirelessEnergyHatchPartMachine;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.computation.WirelessOpticalComputationHatchMachine;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;

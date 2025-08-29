@@ -1,5 +1,8 @@
 package com.hepdd.gtmthings;
 
+import com.hepdd.gtmthings.config.ConfigHolder;
+import com.hepdd.gtmthings.data.*;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -9,9 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import com.hepdd.gtmthings.config.ConfigHolder;
-import com.hepdd.gtmthings.data.*;
 
 import static com.hepdd.gtmthings.common.registry.GTMTRegistration.GTMTHINGS_REGISTRATE;
 import static net.minecraft.resources.ResourceLocation.tryBuild;

@@ -1,6 +1,7 @@
 package com.hepdd.gtmthings.config;
 
 import com.hepdd.gtmthings.GTMThings;
+
 import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.Configurable;

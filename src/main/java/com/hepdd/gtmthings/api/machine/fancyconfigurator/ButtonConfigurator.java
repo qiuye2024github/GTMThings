@@ -2,10 +2,11 @@ package com.hepdd.gtmthings.api.machine.fancyconfigurator;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 
-import net.minecraft.network.chat.Component;
-
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
+
+import net.minecraft.network.chat.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

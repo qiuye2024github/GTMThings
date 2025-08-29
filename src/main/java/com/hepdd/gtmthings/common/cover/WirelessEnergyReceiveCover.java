@@ -1,5 +1,9 @@
 package com.hepdd.gtmthings.common.cover;
 
+import com.hepdd.gtmthings.api.machine.IWirelessEnergyContainerHolder;
+import com.hepdd.gtmthings.api.machine.WirelessEnergyReceiveCoverHolder;
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -16,9 +20,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-import com.hepdd.gtmthings.api.machine.IWirelessEnergyContainerHolder;
-import com.hepdd.gtmthings.api.machine.WirelessEnergyReceiveCoverHolder;
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import lombok.Getter;
 import lombok.Setter;
 

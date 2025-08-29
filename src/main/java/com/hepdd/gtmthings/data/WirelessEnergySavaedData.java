@@ -1,5 +1,7 @@
 package com.hepdd.gtmthings.data;
 
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
@@ -11,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;

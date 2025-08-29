@@ -1,12 +1,13 @@
 package com.hepdd.gtmthings.common.item;
 
+import com.hepdd.gtmthings.data.CustomItems;
+
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import appeng.items.storage.CreativeCellItem;
 import appeng.util.ConfigInventory;
-import com.hepdd.gtmthings.data.CustomItems;
 import org.jetbrains.annotations.Nullable;
 
 public final class VirtualItemProviderCellItem extends CreativeCellItem {

@@ -1,5 +1,8 @@
 package com.hepdd.gtmthings.integration.jade.provider;
 
+import com.hepdd.gtmthings.GTMThings;
+import com.hepdd.gtmthings.api.capability.IGTMTJadeIF;
+
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -12,8 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import com.hepdd.gtmthings.GTMThings;
-import com.hepdd.gtmthings.api.capability.IGTMTJadeIF;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;

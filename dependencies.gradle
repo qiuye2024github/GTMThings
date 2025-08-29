@@ -1,59 +1,80 @@
 dependencies {
-    compileOnly libs.jetbrains.annotations
+    compileOnly(libs.jetbrains.annotations)
 
-    modImplementation("com.gregtechceu.gtceu:gtceu-${project.minecraft_version}:${project.gtceu_version}")
-    modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
-    modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
-    modImplementation("dev.toma.configuration:configuration-$project.minecraft_version:$project.configuration_version")
+    modClientLocalRuntime(forge.jecharacters.get())
 
-    // JEI
-    modCompileOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive = false }
-    modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive = false }
-    modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }
+    // Mixin (& Extras)
+    annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
+    api(annotationProcessor(forge.mixinExtras.common.get()))
 
-    // EMI
-    modImplementation("dev.emi:emi-forge:${emi_version}")
+    // LDLib
+    modCompileOnly(forge.ldlib)
 
-    // Mixin Extras
-    compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.2-beta.4"))
-    implementation(jarJar("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.2-beta.4"))
-    api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
-    annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
+    // Registrate
+    modCompileOnly(forge.registrate)
 
-    // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    // Configuration
+    modCompileOnly(forge.configuration)
 
-    // JADE
-    modImplementation("curse.maven:jade-324717:6106101")
+    // GregTech
+    modCompileOnly(forge.gtm)
+
+    // Recipe Viewers
+    modCompileOnly(forge.bundles.jei)
+    modCompileOnly(forge.emi)
+
+    // WAILA-likes
+    modCompileOnly(forge.jade)
 
     // AE2
-    modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}") { transitive = false }
-    modImplementation("org.appliedenergistics:guideme:20.1.7")
+    modCompileOnly(forge.ae2)
 
     // FTB
-    modCompileOnly("dev.architectury:architectury-forge:${project.architectury_version}")
-    modCompileOnly("dev.ftb.mods:ftb-library-forge:${project.ftb_library_version}") { transitive = false }
-    modCompileOnly("dev.ftb.mods:ftb-teams-forge:${project.ftb_teams_version}") { transitive = false }
+    modCompileOnly(forge.architectury)
 
-//    // Jech
-//    modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
-//
-//    // Embeddium
-//    modRuntimeOnly("curse.maven:embeddium-908741:5681725")
-//
-//    // Modern UI
-//    modRuntimeOnly("curse.maven:modern-ui-352491:5977000")
-//
+    modCompileOnly(forge.ftblibrary)
+    modCompileOnly(forge.ftbteams)
+
+    // Standard runtime mods //
+    modLocalRuntime(forge.jade)
+    modLocalRuntime(forge.curios)
+    modLocalRuntime(forge.modernfix)
+    modLocalRuntime(forge.modernui)
+    modLocalRuntime(forge.ferritecore)
+
+    // AE2 //
+    modLocalRuntime(forge.ae2)
+
+    modLocalRuntime(forge.guideme)
+
+    // FTB //
+    modLocalRuntime(forge.architectury)
+    modLocalRuntime(forge.ftblibrary)
+    modLocalRuntime(forge.ftbteams)
+
+    // GregTech //
+    modLocalRuntime(forge.ldlib)
+    modLocalRuntime(forge.configuration)
+    modLocalRuntime(forge.gtm)
+
+    // Sophisticated Mods //
+    modLocalRuntime(forge.sophisticatedcore)
+    modLocalRuntime(forge.sophisticatedbackpacks)
+    modLocalRuntime(forge.sophisticatedstorage)
+
+    // Runtime Recipe Viewers - uncomment whichever one you want to use //
+    modLocalRuntime(forge.emi)
+    modLocalRuntime(forge.jei.forge.impl)
+
+    // Client-only runtime mods //
+    modClientLocalRuntime(forge.embeddium)
+    modClientLocalRuntime(forge.oculus)
+    renderNurseCfg(libs.renderNurse)
+
 //    // Mouse Tweaks
 //    modRuntimeOnly("curse.maven:mouse-tweaks-60089:5338457")
-//
+
 //    // WorldEdit
 //    modRuntimeOnly("curse.maven:worldedit-225608:4586218")
-
-    // Sophisticated
-    modRuntimeOnly("curse.maven:sophisticated-core-618298:6596375")
-    modRuntimeOnly("curse.maven:sophisticated-storage-619320:6596948")
-    modRuntimeOnly("curse.maven:sophisticated-backpacks-422301:6587116")
 
 }

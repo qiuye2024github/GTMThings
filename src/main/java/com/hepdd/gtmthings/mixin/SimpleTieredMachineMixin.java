@@ -1,5 +1,8 @@
 package com.hepdd.gtmthings.mixin;
 
+import com.hepdd.gtmthings.api.machine.trait.ProgrammableCircuitHandler;
+import com.hepdd.gtmthings.data.CustomItems;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -7,8 +10,6 @@ import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
-import com.hepdd.gtmthings.api.machine.trait.ProgrammableCircuitHandler;
-import com.hepdd.gtmthings.data.CustomItems;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;

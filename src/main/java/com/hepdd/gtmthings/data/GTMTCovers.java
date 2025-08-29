@@ -1,5 +1,8 @@
 package com.hepdd.gtmthings.data;
 
+import com.hepdd.gtmthings.GTMThings;
+import com.hepdd.gtmthings.common.cover.*;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -8,8 +11,6 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.client.renderer.cover.ICoverRenderer;
 import com.gregtechceu.gtceu.client.renderer.cover.SimpleCoverRenderer;
 
-import com.hepdd.gtmthings.GTMThings;
-import com.hepdd.gtmthings.common.cover.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
 
 import java.util.Arrays;

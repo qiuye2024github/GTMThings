@@ -1,5 +1,9 @@
 package com.hepdd.gtmthings.api.machine.trait;
 
+import com.hepdd.gtmthings.common.cover.ProgrammableCover;
+import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
+import com.hepdd.gtmthings.data.CustomItems;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -9,9 +13,6 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.world.item.ItemStack;
 
-import com.hepdd.gtmthings.common.cover.ProgrammableCover;
-import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
-import com.hepdd.gtmthings.data.CustomItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;

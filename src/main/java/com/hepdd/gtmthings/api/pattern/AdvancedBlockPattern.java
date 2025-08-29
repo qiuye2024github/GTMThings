@@ -1,5 +1,7 @@
 package com.hepdd.gtmthings.api.pattern;
 
+import com.hepdd.gtmthings.common.item.AdvancedTerminalBehavior;
+
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -9,6 +11,8 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.block.CoilBlock;
+
+import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,8 +39,6 @@ import appeng.api.networking.IGrid;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.storage.MEStorage;
 import appeng.items.tools.powered.WirelessTerminalItem;
-import com.hepdd.gtmthings.common.item.AdvancedTerminalBehavior;
-import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;

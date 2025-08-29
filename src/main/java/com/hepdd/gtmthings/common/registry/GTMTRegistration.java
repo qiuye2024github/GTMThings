@@ -1,11 +1,11 @@
 package com.hepdd.gtmthings.common.registry;
 
+import com.hepdd.gtmthings.GTMThings;
+
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
-
-import com.hepdd.gtmthings.GTMThings;
 
 public class GTMTRegistration {
 

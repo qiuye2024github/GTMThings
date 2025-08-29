@@ -1,5 +1,11 @@
 package com.hepdd.gtmthings.data;
 
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeEnergyHatchPartMachine;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeInputBusPartMachine;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeInputHatchPartMachine;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeLaserHatchPartMachine;
+import com.hepdd.gtmthings.common.item.CreativeFluidStats;
+
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ICustomDescriptionId;
@@ -15,11 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeEnergyHatchPartMachine;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeInputBusPartMachine;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeInputHatchPartMachine;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeLaserHatchPartMachine;
-import com.hepdd.gtmthings.common.item.CreativeFluidStats;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;

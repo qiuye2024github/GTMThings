@@ -1,5 +1,12 @@
 package com.hepdd.gtmthings.data;
 
+import com.hepdd.gtmthings.GTMThings;
+import com.hepdd.gtmthings.common.block.machine.electric.DigitalMiner;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeDualHatchPartMachine;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.ProgrammableHatchPartMachine;
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.appeng.MEOutputPartMachine;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -15,13 +22,6 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-
-import com.hepdd.gtmthings.GTMThings;
-import com.hepdd.gtmthings.common.block.machine.electric.DigitalMiner;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeDualHatchPartMachine;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.ProgrammableHatchPartMachine;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.appeng.MEOutputPartMachine;
 
 import java.util.Locale;
 import java.util.function.BiFunction;
