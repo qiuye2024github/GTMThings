@@ -108,27 +108,26 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                         .addWidget(new AlignLabelWidget(89, 5, "item.gtmthings.advanced_terminal.setting.title").setTextAlign(ALIGN_CENTER))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.1")
                                 .setHoverTooltips(lines))
-                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getCoilTier(handItem),
+                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 25, 16, () -> getCoilTier(handItem),
                                 (v) -> setCoilTier(v, handItem))
                                 .setMin(0).setMax(GTCEuAPI.HEATING_COILS.size()))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.2")
                                 .setHoverTooltips(Component.translatable("item.gtmthings.advanced_terminal.setting.2.tooltip")))
-                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getRepeatCount(handItem),
+                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 25, 16, () -> getRepeatCount(handItem),
                                 (v) -> setRepeatCount(v, handItem))
-                                .setMin(0).setMax(99))
+                                .setMin(0).setMax(1000))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.3")
                                 .setHoverTooltips("item.gtmthings.advanced_terminal.setting.3.tooltip"))
-                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getIsBuildHatches(handItem),
+                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 25, 16, () -> getIsBuildHatches(handItem),
                                 (v) -> setIsBuildHatches(v, handItem)).setMin(0).setMax(1))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.4")
                                 .setHoverTooltips("item.gtmthings.advanced_terminal.setting.4.tooltip"))
-                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getReplaceCoilMode(handItem),
+                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 25, 16, () -> getReplaceCoilMode(handItem),
                                 (v) -> setReplaceCoilMode(v, handItem)).setMin(0).setMax(1))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.5")
                                 .setHoverTooltips("item.gtmthings.advanced_terminal.setting.5.tooltip"))
-                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getIsUseAE(handItem),
+                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 25, 16, () -> getIsUseAE(handItem),
                                 (v) -> setIsUseAE(v, handItem)).setMin(0).setMax(1)));
-
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
