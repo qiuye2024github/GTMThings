@@ -37,8 +37,7 @@ public class GTMThings {
         modEventBus.addGenericListener(CoverDefinition.class, this::registerCovers);
     }
 
-    private static void commonSetup(FMLCommonSetupEvent event) {
-    }
+    private static void commonSetup(FMLCommonSetupEvent event) {}
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         GTMTRecipeTypes.init();

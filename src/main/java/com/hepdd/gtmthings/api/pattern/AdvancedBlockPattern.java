@@ -315,10 +315,10 @@ public class AdvancedBlockPattern extends BlockPattern {
         // 根据玩家水平朝向确定镜像轴
         return switch (playerFacing) {
             case NORTH, SOUTH ->
-                // 东西镜像 (X轴取反)
+                    // 东西镜像 (X轴取反)
                     new BlockPos(-x, y, z);
             case EAST, WEST ->
-                // 南北镜像 (Z轴取反)
+                    // 南北镜像 (Z轴取反)
                     new BlockPos(x, y, -z);
             default -> pos;
         };
