@@ -17,7 +17,8 @@ public final class Hatch {
     static {
         GTRegistries.MACHINES.forEach(d -> {
             var block = d.getBlock();
-            if (d.createMetaMachine((IMachineBlockEntity) d.getBlockEntityType().create(BlockPos.ZERO, block.defaultBlockState())) instanceof MultiblockPartMachine) {
+            if (d.createMetaMachine((IMachineBlockEntity) d.getBlockEntityType().create(BlockPos.ZERO,
+                    block.defaultBlockState())) instanceof MultiblockPartMachine) {
                 Set.add(block);
             }
         });
