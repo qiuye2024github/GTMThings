@@ -1,6 +1,5 @@
 package com.hepdd.gtmthings;
 
-import com.hepdd.gtmthings.common.block.BlockMap;
 import com.hepdd.gtmthings.common.registry.GTMTRegistration;
 import com.hepdd.gtmthings.data.GTMTRecipe;
 
@@ -21,9 +20,7 @@ public class GTMTGTAddon implements IGTAddon {
     }
 
     @Override
-    public void initializeAddon() {
-        BlockMap.init();
-    }
+    public void initializeAddon() {}
 
     @Override
     public String addonModId() {

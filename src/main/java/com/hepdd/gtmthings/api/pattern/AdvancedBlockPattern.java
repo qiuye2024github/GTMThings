@@ -161,7 +161,7 @@ public class AdvancedBlockPattern extends BlockPattern {
                         updateWorldState(worldState, pos, predicate);
                         ItemStack coilItemStack = null;
                         if (!world.isEmptyBlock(pos)) {
-                            if (world.getBlockState(pos).getBlock() instanceof CoilBlock coilBlock && autoBuildSetting.isreplaceMode()) {
+                            if (world.getBlockState(pos).getBlock() instanceof CoilBlock coilBlock && autoBuildSetting.isReplaceCoilMode()) {
                                 coilItemStack = coilBlock.asItem().getDefaultInstance();
                             } else {
                                 blocks.put(pos, world.getBlockState(pos));
@@ -236,7 +236,7 @@ public class AdvancedBlockPattern extends BlockPattern {
 
                         List<ItemStack> candidates = autoBuildSetting.apply(infos);
 
-                        if (autoBuildSetting.isreplaceMode() && coilItemStack != null && ItemStack.isSameItem(candidates.get(0), coilItemStack)) continue;
+                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null && ItemStack.isSameItem(candidates.get(0), coilItemStack)) continue;
 
                         // check inventory
                         Triplet<ItemStack, IItemHandler, Integer> result = foundItem(player, candidates, autoBuildSetting.isUseAE());
@@ -249,7 +249,7 @@ public class AdvancedBlockPattern extends BlockPattern {
                         // check can get old coilBlock
                         IItemHandler holderHandler = null;
                         int holderSlot = -1;
-                        if (autoBuildSetting.isreplaceMode() && coilItemStack != null) {
+                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null) {
                             Pair<IItemHandler, Integer> holderResult = foundHolderSlot(player, coilItemStack);
                             holderHandler = holderResult.getFirst();
                             holderSlot = holderResult.getSecond();
@@ -259,7 +259,7 @@ public class AdvancedBlockPattern extends BlockPattern {
                             }
                         }
 
-                        if (autoBuildSetting.isreplaceMode() && coilItemStack != null) {
+                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null) {
                             world.removeBlock(pos, true);
                             if (holderHandler != null) holderHandler.insertItem(holderSlot, coilItemStack, false);
                         }
@@ -315,10 +315,10 @@ public class AdvancedBlockPattern extends BlockPattern {
         // 根据玩家水平朝向确定镜像轴
         return switch (playerFacing) {
             case NORTH, SOUTH ->
-                    // 东西镜像 (X轴取反)
+                // 东西镜像 (X轴取反)
                     new BlockPos(-x, y, z);
             case EAST, WEST ->
-                    // 南北镜像 (Z轴取反)
+                // 南北镜像 (Z轴取反)
                     new BlockPos(x, y, -z);
             default -> pos;
         };

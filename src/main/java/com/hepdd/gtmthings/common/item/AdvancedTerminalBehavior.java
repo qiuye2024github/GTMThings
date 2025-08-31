@@ -1,10 +1,8 @@
 package com.hepdd.gtmthings.common.item;
 
 import com.hepdd.gtmthings.api.gui.widget.AlignLabelWidget;
-import com.hepdd.gtmthings.api.gui.widget.BlockMapSelector;
 import com.hepdd.gtmthings.api.gui.widget.TerminalInputWidget;
 import com.hepdd.gtmthings.api.misc.Hatch;
-import com.hepdd.gtmthings.common.block.BlockMap;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
@@ -33,22 +31,16 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static com.hepdd.gtmthings.api.gui.widget.AlignLabelWidget.ALIGN_CENTER;
 import static com.hepdd.gtmthings.api.pattern.AdvancedBlockPattern.getAdvancedBlockPattern;
 
 public class AdvancedTerminalBehavior implements IItemUIFactory {
-
-    private static final String TIER = "gtmtings.auto_build.tier";
 
     public AdvancedTerminalBehavior() {}
 
@@ -63,7 +55,7 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
 
                 if (!controller.isFormed()) {
                     getAdvancedBlockPattern(controller.getPattern()).autoBuild(context.getPlayer(), controller.getMultiblockState(), autoBuildSetting);
-                } else if (MetaMachine.getMachine(level, blockPos) instanceof WorkableMultiblockMachine workableMultiblockMachine && autoBuildSetting.isreplaceMode()) {
+                } else if (MetaMachine.getMachine(level, blockPos) instanceof WorkableMultiblockMachine workableMultiblockMachine && autoBuildSetting.isReplaceCoilMode()) {
                     getAdvancedBlockPattern(controller.getPattern()).autoBuild(context.getPlayer(), controller.getMultiblockState(), autoBuildSetting);
                     workableMultiblockMachine.onPartUnload();
                 }
@@ -78,18 +70,19 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
         AutoBuildSetting autoBuildSetting = new AutoBuildSetting();
         var tag = itemStack.getTag();
         if (tag != null && !tag.isEmpty()) {
-            autoBuildSetting.Tier = tag.getInt("tier");
-            autoBuildSetting.repeatCount = tag.getInt("repeatCount");
-            autoBuildSetting.noHatchMode = tag.getBoolean("noHatchMode");
-            autoBuildSetting.replaceMode = tag.getBoolean("replaceMode");
-            autoBuildSetting.isUseAE = tag.getBoolean("isUseAE");
-            autoBuildSetting.IsUseMirror = tag.getBoolean("IsUseMirror");
-            autoBuildSetting.module = tag.getBoolean("module");
-            var block = tag.getString("block");
-            if (!block.isEmpty()) {
-                autoBuildSetting.tierBlock = BlockMap.MAP.get(block);
-                autoBuildSetting.blocks = new ReferenceOpenHashSet<>(autoBuildSetting.tierBlock);
-            }
+            autoBuildSetting.setTier(tag.contains("CoilTier") ? tag.getInt("Tier") : 0);
+            autoBuildSetting.setRepeatCount(tag.contains("CoilTier") ? tag.getInt("RepeatCount") : 0);
+            autoBuildSetting.setNoHatchMode(!tag.contains("CoilTier") || tag.getBoolean("NoHatchMode"));
+            autoBuildSetting.setReplaceCoilMode(tag.contains("CoilTier") && tag.getBoolean("ReplaceCoilMode"));
+            autoBuildSetting.setUseAE(tag.contains("CoilTier") && tag.getBoolean("IsUseAE"));
+            autoBuildSetting.setIsUseMirror(tag.contains("CoilTier") && tag.getBoolean("IsUseMirror"));
+        } else {
+            autoBuildSetting.setTier(0);
+            autoBuildSetting.setRepeatCount(0);
+            autoBuildSetting.setNoHatchMode(true);
+            autoBuildSetting.setReplaceCoilMode(false);
+            autoBuildSetting.setUseAE(false);
+            autoBuildSetting.setIsUseMirror(false);
         }
         return autoBuildSetting;
     }
@@ -116,41 +109,11 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                         .setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1))
                         .addWidget(new AlignLabelWidget(89, 5, "item.gtmthings.advanced_terminal.setting.title")
                                 .setTextAlign(ALIGN_CENTER))
-                        .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, () -> {
-                            var category = BlockMap.MAP.getOrDefault(handItem.getOrCreateTag().getString("block"), new Block[0]);
-                            var tier0 = handItem.getOrCreateTag().getInt("tier");
-                            if (category.length == 0 || tier0 <= 0 || tier0 > category.length) return Component.translatable(TIER).getString();
-                            return Component.translatable(TIER)
-                                    .append("(")
-                                    .append(Stream.of(category).map(Block::getName).toList().get(tier0 - 1))
-                                    .append(")")
-                                    .getString();
-                        }) {
-
-                            @OnlyIn(Dist.CLIENT)
-                            protected void drawTooltipTexts(int mouseX, int mouseY) {
-                                if (this.isMouseOverElement(mouseX, mouseY) && this.getHoverElement(mouseX, mouseY) == this && this.gui != null && this.gui.getModularUIGui() != null) {
-                                    List<Component> lines = new ArrayList<>(List.of());
-                                    int i = 0;
-                                    for (var block : BlockMap.MAP.getOrDefault(handItem.getOrCreateTag().getString("block"), new Block[0])) {
-                                        i++;
-                                        lines.add(Component.literal(String.valueOf(i)).append(":").append(block.getName()));
-                                    }
-                                    this.gui.getModularUIGui().setHoverTooltip(lines, ItemStack.EMPTY, null, null);
-                                }
-                            }
-                        })
-                        .addWidget(new BlockMapSelector(96, 4, 76, 12, (category, tier0) -> {
-                            if (category != null && tier0 != null) {
-                                var tag = handItem.getOrCreateTag();
-                                tag.putString("block", category);
-                                tag.putInt("tier", tier0);
-                                handItem.setTag(tag);
-                            }
-                        }))
-                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getTier(handItem),
+                        .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.1")
+                                .setHoverTooltips(lines))
+                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 25, 16, () -> getTier(handItem),
                                 (v) -> setTier(v, handItem))
-                                .setMin(0).setMax(100))
+                                .setMin(0).setMax(GTCEuAPI.HEATING_COILS.size()))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.2")
                                 .setHoverTooltips(Component.translatable("item.gtmthings.advanced_terminal.setting.2.tooltip")))
                         .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 25, 16, () -> getRepeatCount(handItem),
@@ -166,8 +129,8 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.4")
                                 .setHoverTooltips("item.gtmthings.advanced_terminal.setting.4.tooltip"))
                         .addWidget(new SwitchWidget(140, 5 + 16 * rowIndex++, 25, 16,
-                                (c, v) -> setReplaceMode(!getReplaceMode(handItem), handItem))
-                                .setPressed(getReplaceMode(handItem))
+                                (c, v) -> setReplaceCoilMode(!getReplaceCoilMode(handItem), handItem))
+                                .setPressed(getReplaceCoilMode(handItem))
                                 .setTexture(new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("OFF")),
                                         new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("ON"))))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.5")
@@ -182,13 +145,6 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                         .addWidget(new SwitchWidget(140, 5 + 16 * rowIndex++, 25, 16,
                                 (c, v) -> setIsUseMirror(!getIsUseMirror(handItem), handItem))
                                 .setPressed(getIsUseMirror(handItem))
-                                .setTexture(new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("OFF")),
-                                        new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("ON"))))
-                        .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, "item.gtmthings.advanced_terminal.setting.7")
-                                .setHoverTooltips("item.gtmthings.advanced_terminal.setting.7.tooltip"))
-                        .addWidget(new SwitchWidget(140, 5 + 16 * rowIndex++, 25, 16,
-                                (c, v) -> setModule(!getModule(handItem), handItem))
-                                .setPressed(getModule(handItem))
                                 .setTexture(new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("OFF")),
                                         new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("ON")))));
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -243,7 +199,7 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
         itemStack.setTag(tag);
     }
 
-    private boolean getReplaceMode(ItemStack itemStack) {
+    private boolean getReplaceCoilMode(ItemStack itemStack) {
         var tag = itemStack.getTag();
         if (tag != null && !tag.isEmpty() && tag.contains("ReplaceCoilMode")) {
             return tag.getBoolean("ReplaceCoilMode");
@@ -252,7 +208,7 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
         }
     }
 
-    private void setReplaceMode(boolean isReplaceCoil, ItemStack itemStack) {
+    private void setReplaceCoilMode(boolean isReplaceCoil, ItemStack itemStack) {
         var tag = itemStack.getTag();
         if (tag == null) tag = new CompoundTag();
         tag.putBoolean("ReplaceCoilMode", isReplaceCoil);
@@ -291,22 +247,6 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
         itemStack.setTag(tag);
     }
 
-    private boolean getModule(ItemStack itemStack) {
-        var tag = itemStack.getTag();
-        if (tag != null && !tag.isEmpty()) {
-            return tag.getBoolean("module");
-        } else {
-            return false;
-        }
-    }
-
-    private void setModule(boolean isFlip, ItemStack itemStack) {
-        var tag = itemStack.getTag();
-        if (tag == null) tag = new CompoundTag();
-        tag.putBoolean("module", isFlip);
-        itemStack.setTag(tag);
-    }
-
     @Setter
     @Getter
     public static class AutoBuildSetting {
@@ -316,16 +256,15 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
 
         private int Tier, repeatCount;
 
-        private boolean noHatchMode, replaceMode, isUseAE, IsUseMirror, module;
+        private boolean noHatchMode, replaceCoilMode, isUseAE, IsUseMirror;
 
         public AutoBuildSetting() {
             this.Tier = 0;
             this.repeatCount = 0;
-            this.replaceMode = false;
+            this.replaceCoilMode = false;
             this.noHatchMode = true;
             this.isUseAE = false;
             this.IsUseMirror = false;
-            this.module = false;
         }
 
         public List<ItemStack> apply(BlockInfo[] blockInfos) {
@@ -358,10 +297,6 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                         !Hatch.Set.contains(machineBlock);
             }
             return true;
-        }
-
-        public boolean isreplaceMode() {
-            return replaceMode;
         }
 
         public boolean isUseMirror() {

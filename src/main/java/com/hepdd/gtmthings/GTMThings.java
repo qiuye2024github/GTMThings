@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import static com.hepdd.gtmthings.common.registry.GTMTRegistration.GTMTHINGS_REGISTRATE;
@@ -30,9 +31,13 @@ public class GTMThings {
         IEventBus modEventBus = context.getModEventBus();
         ConfigHolder.init();
         GTMTHINGS_REGISTRATE.registerEventListeners(modEventBus);
+        modEventBus.addListener(GTMThings::commonSetup);
         modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(CoverDefinition.class, this::registerCovers);
+    }
+
+    private static void commonSetup(FMLCommonSetupEvent event) {
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
