@@ -125,6 +125,8 @@ public class AdvancedBlockPattern extends BlockPattern {
         Direction facing = controller.self().getFrontFacing();
         Direction upwardsFacing = controller.self().getUpwardsFacing();
         boolean isFlipped = controller.self().isFlipped();
+        boolean isUseMirror = autoBuildSetting.isUseMirror();
+
         Object2IntOpenHashMap<SimplePredicate> cacheGlobal = worldState.getGlobalCount();
         Object2IntOpenHashMap<SimplePredicate> cacheLayer = worldState.getLayerCount();
         Map<BlockPos, Object> blocks = new HashMap<>();
@@ -142,18 +144,24 @@ public class AdvancedBlockPattern extends BlockPattern {
             }
         }
 
+        Direction playerHorizontalFacing = player.getDirection();
+
         for (int c = 0, z = minZ++, r; c < this.fingerLength; c++) {
             for (r = 0; r < repeat[c]; r++) {
                 cacheLayer.clear();
                 for (int b = 0, y = -centerOffset[1]; b < this.thumbLength; b++, y++) {
                     for (int a = 0, x = -centerOffset[0]; a < this.palmLength; a++, x++) {
                         TraceabilityPredicate predicate = this.blockMatches[c][b][a];
-                        BlockPos pos = setActualRelativeOffset(x, y, z, facing, upwardsFacing, isFlipped)
-                                .offset(centerPos.getX(), centerPos.getY(), centerPos.getZ());
+                        BlockPos relativePos = setActualRelativeOffset(x, y, z, facing, upwardsFacing, isFlipped);
+                        if (isUseMirror) {
+                            relativePos = applyMirrorTransform(relativePos, playerHorizontalFacing);
+                        }
+                        BlockPos pos = relativePos.offset(centerPos.getX(), centerPos.getY(), centerPos.getZ());
+
                         updateWorldState(worldState, pos, predicate);
                         ItemStack coilItemStack = null;
                         if (!world.isEmptyBlock(pos)) {
-                            if (world.getBlockState(pos).getBlock() instanceof CoilBlock coilBlock && autoBuildSetting.isReplaceCoilMode()) {
+                            if (world.getBlockState(pos).getBlock() instanceof CoilBlock coilBlock && autoBuildSetting.isreplaceMode()) {
                                 coilItemStack = coilBlock.asItem().getDefaultInstance();
                             } else {
                                 blocks.put(pos, world.getBlockState(pos));
@@ -162,7 +170,6 @@ public class AdvancedBlockPattern extends BlockPattern {
                                 }
                                 continue;
                             }
-
                         }
 
                         boolean find = false;
@@ -229,10 +236,10 @@ public class AdvancedBlockPattern extends BlockPattern {
 
                         List<ItemStack> candidates = autoBuildSetting.apply(infos);
 
-                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null && ItemStack.isSameItem(candidates.get(0), coilItemStack)) continue;
+                        if (autoBuildSetting.isreplaceMode() && coilItemStack != null && ItemStack.isSameItem(candidates.get(0), coilItemStack)) continue;
 
                         // check inventory
-                        Triplet<ItemStack, IItemHandler, Integer> result = foundItem(player, candidates, autoBuildSetting.getIsUseAE());
+                        Triplet<ItemStack, IItemHandler, Integer> result = foundItem(player, candidates, autoBuildSetting.isUseAE());
                         ItemStack found = result.getA();
                         IItemHandler handler = result.getB();
                         int foundSlot = result.getC();
@@ -242,7 +249,7 @@ public class AdvancedBlockPattern extends BlockPattern {
                         // check can get old coilBlock
                         IItemHandler holderHandler = null;
                         int holderSlot = -1;
-                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null) {
+                        if (autoBuildSetting.isreplaceMode() && coilItemStack != null) {
                             Pair<IItemHandler, Integer> holderResult = foundHolderSlot(player, coilItemStack);
                             holderHandler = holderResult.getFirst();
                             holderSlot = holderResult.getSecond();
@@ -252,7 +259,7 @@ public class AdvancedBlockPattern extends BlockPattern {
                             }
                         }
 
-                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null) {
+                        if (autoBuildSetting.isreplaceMode() && coilItemStack != null) {
                             world.removeBlock(pos, true);
                             if (holderHandler != null) holderHandler.insertItem(holderSlot, coilItemStack, false);
                         }
@@ -272,23 +279,22 @@ public class AdvancedBlockPattern extends BlockPattern {
                         } else {
                             blocks.put(pos, world.getBlockState(pos));
                         }
-
                     }
                 }
                 z++;
             }
         }
         Direction frontFacing = controller.self().getFrontFacing();
-        blocks.forEach((pos, block) -> { // adjust facing
+        blocks.forEach((pos, block) -> {
             if (!(block instanceof IMultiController)) {
                 if (block instanceof BlockState && placeBlockPos.contains(pos)) {
-                    resetFacing(pos, (BlockState) block, frontFacing, (p, f) -> {
+                    resetFacing(pos, (BlockState) block, frontFacing, isUseMirror, playerHorizontalFacing, (p, f) -> {
                         Object object = blocks.get(p.relative(f));
                         return object == null ||
                                 (object instanceof BlockState && ((BlockState) object).getBlock() == Blocks.AIR);
                     }, state -> world.setBlock(pos, state, 3));
                 } else if (block instanceof MetaMachine machine) {
-                    resetFacing(pos, machine.getBlockState(), frontFacing, (p, f) -> {
+                    resetFacing(pos, machine.getBlockState(), frontFacing, isUseMirror, playerHorizontalFacing, (p, f) -> {
                         Object object = blocks.get(p.relative(f));
                         if (object == null || (object instanceof BlockState blockState && blockState.isAir())) {
                             return machine.isFacingValid(f);
@@ -300,7 +306,25 @@ public class AdvancedBlockPattern extends BlockPattern {
         });
     }
 
-    private Triplet<ItemStack, IItemHandler, Integer> foundItem(Player player, List<ItemStack> candidates, int isUseAE) {
+    // 应用镜像变换 - 根据玩家朝向确定镜像轴
+    private BlockPos applyMirrorTransform(BlockPos pos, Direction playerFacing) {
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
+        // 根据玩家水平朝向确定镜像轴
+        return switch (playerFacing) {
+            case NORTH, SOUTH ->
+                    // 东西镜像 (X轴取反)
+                    new BlockPos(-x, y, z);
+            case EAST, WEST ->
+                    // 南北镜像 (Z轴取反)
+                    new BlockPos(x, y, -z);
+            default -> pos;
+        };
+    }
+
+    private Triplet<ItemStack, IItemHandler, Integer> foundItem(Player player, List<ItemStack> candidates, boolean isUseAE) {
         ItemStack found = null;
         IItemHandler handler = null;
         int foundSlot = -1;
@@ -451,7 +475,7 @@ public class AdvancedBlockPattern extends BlockPattern {
     private static IntObjectPair<IItemHandler> getMatchStackWithHandler(
                                                                         List<ItemStack> candidates,
                                                                         LazyOptional<IItemHandler> cap,
-                                                                        Player player, int isUseAE) {
+                                                                        Player player, boolean isUseAE) {
         IItemHandler handler = cap.resolve().orElse(null);
         if (handler == null) {
             return null;
@@ -468,7 +492,7 @@ public class AdvancedBlockPattern extends BlockPattern {
                 if (rt != null) {
                     return rt;
                 }
-            } else if (isUseAE == 1 && stack.getItem() instanceof WirelessTerminalItem terminalItem && stack.hasTag() && stack.getTag().contains("accessPoint", 10)) {
+            } else if (isUseAE && stack.getItem() instanceof WirelessTerminalItem terminalItem && stack.hasTag() && stack.getTag().contains("accessPoint", 10)) {
                 IGrid grid = terminalItem.getLinkedGrid(stack, player.level(), player);
                 if (grid != null) {
                     MEStorage storage = grid.getStorageService().getInventory();
@@ -489,16 +513,47 @@ public class AdvancedBlockPattern extends BlockPattern {
         return null;
     }
 
-    private void resetFacing(BlockPos pos, BlockState blockState, Direction facing,
-                             BiPredicate<BlockPos, Direction> checker, Consumer<BlockState> consumer) {
+    private void resetFacing(BlockPos pos, BlockState blockState, Direction facing, boolean isMirrored,
+                             Direction playerFacing, BiPredicate<BlockPos, Direction> checker,
+                             Consumer<BlockState> consumer) {
         if (blockState.hasProperty(BlockStateProperties.FACING)) {
-            tryFacings(blockState, pos, checker, consumer, BlockStateProperties.FACING,
-                    facing == null ? FACINGS : ArrayUtils.addAll(new Direction[] { facing }, FACINGS));
+            Direction[] directions = facing == null ? FACINGS : ArrayUtils.addAll(new Direction[] { facing }, FACINGS);
+            if (isMirrored) {
+                directions = mirrorDirections(directions, playerFacing);
+            }
+            tryFacings(blockState, pos, checker, consumer, BlockStateProperties.FACING, directions);
         } else if (blockState.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-            tryFacings(blockState, pos, checker, consumer, BlockStateProperties.HORIZONTAL_FACING,
-                    facing == null || facing.getAxis() == Direction.Axis.Y ? FACINGS_H :
-                            ArrayUtils.addAll(new Direction[] { facing }, FACINGS_H));
+            Direction[] directions = facing == null || facing.getAxis() == Direction.Axis.Y ? FACINGS_H :
+                    ArrayUtils.addAll(new Direction[] { facing }, FACINGS_H);
+            if (isMirrored) {
+                directions = mirrorDirections(directions, playerFacing);
+            }
+            tryFacings(blockState, pos, checker, consumer, BlockStateProperties.HORIZONTAL_FACING, directions);
         }
+    }
+
+    // 镜像方向处理 - 根据玩家朝向确定镜像变换
+    private Direction[] mirrorDirections(Direction[] directions, Direction playerFacing) {
+        return Arrays.stream(directions)
+                .map(dir -> {
+                    // 根据玩家朝向确定镜像变换
+                    switch (playerFacing) {
+                        case NORTH:
+                        case SOUTH:
+                            // 东西镜像：东变西，西变东
+                            if (dir == Direction.EAST) return Direction.WEST;
+                            if (dir == Direction.WEST) return Direction.EAST;
+                            break;
+                        case EAST:
+                        case WEST:
+                            // 南北镜像：北变南，南变北
+                            if (dir == Direction.NORTH) return Direction.SOUTH;
+                            if (dir == Direction.SOUTH) return Direction.NORTH;
+                            break;
+                    }
+                    return dir; // 其他方向不变
+                })
+                .toArray(Direction[]::new);
     }
 
     private void tryFacings(BlockState blockState, BlockPos pos, BiPredicate<BlockPos, Direction> checker,
